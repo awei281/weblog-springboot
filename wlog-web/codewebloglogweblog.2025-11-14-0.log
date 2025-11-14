@@ -1,0 +1,7 @@
+2025-11-14 22:54:15.139 [main] INFO  com.wlog.web.wlogweb.WlogWebApplicationTests - Starting WlogWebApplicationTests using Java 1.8.0_462 on USER-20250825XL with PID 16224 (started by Administrator in D:\code\weblog\weblog-springboot\wlog-web)
+2025-11-14 22:54:15.140 [main] INFO  com.wlog.web.wlogweb.WlogWebApplicationTests - The following 1 profile is active: "prod"
+2025-11-14 22:54:16.474 [main] INFO  com.wlog.web.wlogweb.WlogWebApplicationTests - Started WlogWebApplicationTests in 1.819 seconds (JVM running for 2.797)
+2025-11-14 22:54:16.708 [main] INFO  com.wlog.web.wlogweb.WlogWebApplicationTests - 这是一行 Info 级别日志
+2025-11-14 22:54:16.708 [main] WARN  com.wlog.web.wlogweb.WlogWebApplicationTests - 这是一行 Warn 级别日志
+2025-11-14 22:54:16.708 [main] ERROR com.wlog.web.wlogweb.WlogWebApplicationTests - 这是一行 Error 级别日志
+2025-11-14 22:54:16.708 [main] INFO  com.wlog.web.wlogweb.WlogWebApplicationTests - 这是一行带有占位符日志，作者：犬小哈
