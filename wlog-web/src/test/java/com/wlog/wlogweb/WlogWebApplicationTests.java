@@ -1,4 +1,4 @@
-package com.wlog.web.wlogweb;
+package com.wlog.wlogweb;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,10 @@
-package com.wlog.common.wlogcommon;
+package com.wlog.wlogadmin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WlogCommonApplicationTests {
+class WlogAdminApplicationTests {
 
     @Test
     void contextLoads() {

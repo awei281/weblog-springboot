@@ -1,5 +1,21 @@
 
 spring:
+  application:
+    name: wlog-web
   profiles:
-#    active: dev
-    active: prod
+    active: dev
+#    active: prod
+
+#  返回参数如果为null就不返回
+#  jackson:
+#    # 设置后台返参，若字段值为 null, 则不返回
+#    default-property-inclusion: non_null
+#    # 设置日期字段格式
+#    date-format: yyyy-MM-dd HH:mm:ss
+
+
+wlog:
+  info:
+    development: ${spring.profiles.active}
+    serviceName: ${spring.application.name}
+    swagger: http://171.65.1.112:11002/doc.html
