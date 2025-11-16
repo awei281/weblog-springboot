@@ -30,6 +30,8 @@
     <!-- dev 环境（仅输出到控制台） -->
     <springProfile name="dev">
         <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+        <logger name="com.wlog.wlogcommon.domain.mapper" level="debug" />
+        <logger name="org.apache.ibatis" level="debug" />
         <root level="info">
             <appender-ref ref="CONSOLE" />
         </root>

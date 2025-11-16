@@ -11,15 +11,21 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>wlog-admin</artifactId>
-    <name>wlog-admin</name>
-    <description>admin module</description>
+    <artifactId>wlog-jwt</artifactId>
+    <name>wlog-jwt</name>
+    <description>JWT authentication module</description>
 
     <dependencies>
-        <!-- Spring 基础 -->
+        <!-- Spring Boot Starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <!-- Lombok -->
@@ -29,25 +35,12 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Test -->
+        <!-- Spring Boot Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- knife4j -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-
     </dependencies>
 
 </project>

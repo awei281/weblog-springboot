@@ -13,19 +13,34 @@
         <module>wlog-web</module>
         <module>wlog-admin</module>
         <module>wlog-common</module>
+        <module>wlog-jwt</module>
     </modules>
 
     <properties>
+        <!-- 项目版本 -->
+        <revision>1.0.0</revision>
+        
+        <!-- Java 版本 -->
         <java.version>1.8</java.version>
-        <spring-boot.version>2.6.13</spring-boot.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- Spring Boot 版本 -->
+        <spring-boot.version>2.6.13</spring-boot.version>
+        
+        <!-- 第三方依赖版本 -->
+        <lombok.version>1.18.28</lombok.version>
+        <knife4j.version>4.4.0</knife4j.version>
+        <hutool.version>5.8.25</hutool.version>
+        <mybatis-plus.version>3.5.12</mybatis-plus.version>
+        <mysql.version>8.0.33</mysql.version>
     </properties>
 
     <!-- 统一依赖版本管理 -->
     <dependencyManagement>
         <dependencies>
+            <!-- Spring Boot 依赖管理 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -34,19 +49,55 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- Knife4j API 文档 -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
-                <version>4.4.0</version>
+                <version>${knife4j.version}</version>
             </dependency>
 
+            <!-- Hutool 工具类 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
-                <version>5.8.25</version>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- MyBatis Plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- MySQL 驱动 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <!-- 公共模块 -->
+            <dependency>
+                <groupId>com.wsw</groupId>
+                <artifactId>wlog-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- JWT 模块 -->
+            <dependency>
+                <groupId>com.wsw</groupId>
+                <artifactId>wlog-jwt</artifactId>
+                <version>${revision}</version>
             </dependency>
         </dependencies>
-
     </dependencyManagement>
 
     <!-- 统一构建配置 -->

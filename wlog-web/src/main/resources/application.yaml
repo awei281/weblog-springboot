@@ -18,4 +18,4 @@ wlog:
   info:
     development: ${spring.profiles.active}
     serviceName: ${spring.application.name}
-    swagger: http://171.65.1.112:11002/doc.html
+    swagger: http://127.0.0.1:11002/doc.html
