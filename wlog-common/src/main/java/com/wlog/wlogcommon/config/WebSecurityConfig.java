@@ -15,9 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
+        http.csrf().disable() // 禁用 CSRF 保护,允许 POST 请求
+                .authorizeHttpRequests()
                 .mvcMatchers("/admin/**").authenticated() // 认证所有以 /admin 为前缀的 URL 资源
-                .anyRequest().permitAll().and() // 其他都需要放行，无需认证
+                .anyRequest().permitAll().and() // 其他都需要放行,无需认证
                 .formLogin().and() // 使用表单登录
                 .httpBasic(); // 使用 HTTP Basic 认证
     }
