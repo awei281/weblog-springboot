@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // 配置请求拦截规则
             .authorizeHttpRequests()
                 // 登录相关接口放行
-                .mvcMatchers("/auth/login").permitAll()
+                .mvcMatchers("/wlog/auth/login").permitAll()
                 // Knife4j 文档相关路径放行
                 .mvcMatchers("/doc.html", "/webjars/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
                 // 需要认证的路径

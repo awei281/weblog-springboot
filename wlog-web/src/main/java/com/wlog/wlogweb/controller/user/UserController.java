@@ -39,9 +39,9 @@ public class UserController {
         return Response.success(true);
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get/{id}")
     @Operation(summary = "查询用户")
-    public Response<UserRespVO> getUser(@RequestParam("id") Long id) {
+    public Response<UserRespVO> getUser(@PathVariable("id") Long id) {
         return Response.success(userService.getUserById(id));
     }
 
