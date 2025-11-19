@@ -40,6 +40,20 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
+    public void updateUser(UserSaveReqVO updateReqVO) {
+        // 查询用户是否存在
+        AdminUserDO existUser = userMapper.selectById(updateReqVO.getId());
+        if (existUser == null) {
+            throw new IllegalArgumentException("用户不存在");
+        }
+        
+        // 更新用户信息
+        AdminUserDO updateUser = BeanUtils.toBean(updateReqVO, AdminUserDO.class);
+        updateUser.setUpdateTime(LocalDateTime.now());
+        userMapper.updateById(updateUser);
+    }
+
+    @Override
     public AdminUserDO getUserByUsername(String username) {
         return userMapper.selectByUsername(username);
     }

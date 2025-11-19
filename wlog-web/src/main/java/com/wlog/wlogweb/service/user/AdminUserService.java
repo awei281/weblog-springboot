@@ -19,6 +19,13 @@ public interface AdminUserService {
      */
     Long createUser(@Valid UserSaveReqVO createReqVO);
 
+    /**
+     * 更新用户
+     *
+     * @param updateReqVO 用户信息
+     */
+    void updateUser(@Valid UserSaveReqVO updateReqVO);
+
 
     /**
      * 通过用户名查询用户
