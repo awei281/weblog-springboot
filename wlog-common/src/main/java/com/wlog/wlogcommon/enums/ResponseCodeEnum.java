@@ -23,7 +23,11 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
 
 
 
-
+    // ----------- 登录异常状态码 -----------
+    USER_NOT_LOGIN("30000", "用户未登录"),
+    USER_LOGIN_ERROR("30001", "用户登录失败"),
+    USER_LOGOUT_ERROR("30002", "用户登出失败"),
+    USER_LOGIN_EXPIRED("30003", "用户登录已过期"),
     ;
 
     // 异常码

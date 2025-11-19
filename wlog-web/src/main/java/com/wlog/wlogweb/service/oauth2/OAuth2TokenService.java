@@ -23,4 +23,12 @@ public interface OAuth2TokenService {
      * @return 访问令牌的信息
      */
     OAuth2AccessTokenDO createAccessToken(Long userId);
+
+    /**
+     * 校验访问令牌
+     *
+     * @param accessToken 访问令牌
+     * @return 访问令牌的信息
+     */
+    OAuth2AccessTokenDO checkAccessToken(String accessToken);
 }

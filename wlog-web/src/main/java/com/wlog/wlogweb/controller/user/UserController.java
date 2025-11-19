@@ -21,7 +21,7 @@ import javax.validation.Valid;
  */
 @Tag(name = "用户模块")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/wlog/user")
 @Slf4j
 public class UserController {
 

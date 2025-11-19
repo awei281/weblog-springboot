@@ -5,6 +5,8 @@ import com.wlog.wlogcommon.domain.dos.OAuth2AccessTokenDO;
 import com.wlog.wlogcommon.domain.dos.OAuth2RefreshTokenDO;
 import com.wlog.wlogcommon.domain.mapper.OAuth2AccessTokenMapper;
 import com.wlog.wlogcommon.domain.mapper.OAuth2RefreshTokenMapper;
+import com.wlog.wlogcommon.enums.ResponseCodeEnum;
+import com.wlog.wlogcommon.exception.BizException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,5 +60,18 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     private static String generateRefreshToken() {
         return IdUtil.fastSimpleUUID();
+    }
+
+    @Override
+    public OAuth2AccessTokenDO checkAccessToken(String accessToken) {
+        OAuth2AccessTokenDO accessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(accessToken);
+        if (accessTokenDO == null) {
+            throw new BizException(ResponseCodeEnum.USER_NOT_LOGIN);
+        }
+        // 检查是否过期
+        if (accessTokenDO.getExpiresTime().isBefore(LocalDateTime.now())) {
+            throw new BizException(ResponseCodeEnum.USER_LOGIN_EXPIRED);
+        }
+        return accessTokenDO;
     }
 }
