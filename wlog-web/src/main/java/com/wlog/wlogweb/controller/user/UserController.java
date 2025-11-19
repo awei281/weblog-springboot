@@ -1,15 +1,13 @@
 package com.wlog.wlogweb.controller.user;
 
 import com.wlog.wlogcommon.utils.Response;
+import com.wlog.wlogweb.controller.user.vo.UserRespVO;
 import com.wlog.wlogweb.controller.user.vo.UserSaveReqVO;
 import com.wlog.wlogweb.service.user.AdminUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -39,6 +37,12 @@ public class UserController {
     public Response<Boolean> updateUser(@RequestBody @Valid UserSaveReqVO reqVO) {
         userService.updateUser(reqVO);
         return Response.success(true);
+    }
+
+    @GetMapping("/get")
+    @Operation(summary = "查询用户")
+    public Response<UserRespVO> getUser(@RequestParam("id") Long id) {
+        return Response.success(userService.getUserById(id));
     }
 
 }

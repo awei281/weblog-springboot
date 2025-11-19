@@ -3,7 +3,10 @@ package com.wlog.wlogweb.service.user;
 
 import com.wlog.wlogcommon.domain.dos.AdminUserDO;
 import com.wlog.wlogcommon.domain.mapper.AdminUserMapper;
+import com.wlog.wlogcommon.enums.ResponseCodeEnum;
+import com.wlog.wlogcommon.exception.BizException;
 import com.wlog.wlogcommon.utils.BeanUtils;
+import com.wlog.wlogweb.controller.user.vo.UserRespVO;
 import com.wlog.wlogweb.controller.user.vo.UserSaveReqVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +47,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         // 查询用户是否存在
         AdminUserDO existUser = userMapper.selectById(updateReqVO.getId());
         if (existUser == null) {
-            throw new IllegalArgumentException("用户不存在");
+            throw new BizException(ResponseCodeEnum.USER_NOT_FOUND);
         }
         
         // 更新用户信息
@@ -56,6 +59,15 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public AdminUserDO getUserByUsername(String username) {
         return userMapper.selectByUsername(username);
+    }
+
+    @Override
+    public UserRespVO getUserById(Long id) {
+        AdminUserDO user = userMapper.selectById(id);
+        if (user == null) {
+            throw new BizException(ResponseCodeEnum.USER_NOT_FOUND);
+        }
+        return BeanUtils.toBean(user, UserRespVO.class);
     }
 
     @Override

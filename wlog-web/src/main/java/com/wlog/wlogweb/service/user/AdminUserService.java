@@ -1,6 +1,7 @@
 package com.wlog.wlogweb.service.user;
 
 import com.wlog.wlogcommon.domain.dos.AdminUserDO;
+import com.wlog.wlogweb.controller.user.vo.UserRespVO;
 import com.wlog.wlogweb.controller.user.vo.UserSaveReqVO;
 
 import javax.validation.Valid;
@@ -25,6 +26,14 @@ public interface AdminUserService {
      * @param updateReqVO 用户信息
      */
     void updateUser(@Valid UserSaveReqVO updateReqVO);
+
+    /**
+     * 根据用户ID查询用户
+     *
+     * @param id 用户ID
+     * @return 用户信息
+     */
+    UserRespVO getUserById(Long id);
 
 
     /**
