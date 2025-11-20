@@ -54,6 +54,12 @@
             <artifactId>wlog-common</artifactId>
         </dependency>
 
+        <!-- Admin 模块 -->
+        <dependency>
+            <groupId>com.wsw</groupId>
+            <artifactId>wlog-admin</artifactId>
+        </dependency>
+
         <!-- Spring Boot Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

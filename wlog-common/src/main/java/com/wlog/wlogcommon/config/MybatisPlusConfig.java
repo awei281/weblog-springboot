@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @describe：
  */
 @Configuration
-@MapperScan("com.wlog.wlogcommon.domain.mapper")
+@MapperScan({"com.wlog.wlogcommon.domain.mapper", "com.wlog.wlogadmin.mapper"})
 public class MybatisPlusConfig {
 
     /**

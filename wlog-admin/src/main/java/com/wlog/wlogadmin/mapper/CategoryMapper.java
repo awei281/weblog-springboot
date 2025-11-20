@@ -7,9 +7,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wlog.wlogadmin.model.vo.FindCategoryPageListReqVO;
 import com.wlog.wlogadmin.model.vo.FindCategoryPageListRspVO;
 import com.wlog.wlogcommon.domain.dos.CategoryDO;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-
+@Mapper
 public interface CategoryMapper extends BaseMapper<CategoryDO> {
 
     /**

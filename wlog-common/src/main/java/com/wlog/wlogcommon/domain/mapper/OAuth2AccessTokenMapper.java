@@ -2,6 +2,7 @@ package com.wlog.wlogcommon.domain.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wlog.wlogcommon.domain.dos.OAuth2AccessTokenDO;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -10,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
  * @date： 2025/11/17 15:38
  * @describe：
  */
+@Mapper
 public interface OAuth2AccessTokenMapper extends BaseMapper<OAuth2AccessTokenDO> {
 
     /**

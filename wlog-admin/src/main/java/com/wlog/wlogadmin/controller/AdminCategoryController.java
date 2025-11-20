@@ -10,12 +10,10 @@ import com.wlog.wlogcommon.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Tag(name = "分类模块")
 @RestController
@@ -37,10 +35,22 @@ public class AdminCategoryController {
     @PostMapping("/page")
     @Operation(summary = "分类分页数据获取")
     @ApiOperationLog(description = "分类分页数据获取")
-    public Response<IPage<FindCategoryPageListRspVO>> findCategoryList(@RequestBody @Validated FindCategoryPageListReqVO findCategoryPageListReqVO) {
+    public IPage<FindCategoryPageListRspVO> findCategoryList(@RequestBody @Validated FindCategoryPageListReqVO findCategoryPageListReqVO) {
         return categoryService.findCategoryList(findCategoryPageListReqVO);
     }
 
 
+    @PostMapping("/delete/{id}")
+    @Operation(summary = "删除分类")
+    public Response<Boolean> deleteCategory(@PathVariable  Long id) {
+        categoryService.deleteCategory(id);
+        return Response.success(true);
+    }
 
+
+    @PostMapping("/list")
+    @Operation(summary = "分类列表")
+    public Response<List<FindCategoryPageListRspVO>> listCategory() {
+        return Response.success(categoryService.listCategory());
+    }
 }

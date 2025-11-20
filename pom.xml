@@ -91,6 +91,13 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- Admin 模块 -->
+            <dependency>
+                <groupId>com.wsw</groupId>
+                <artifactId>wlog-admin</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <!-- JWT 模块 -->
             <dependency>
                 <groupId>com.wsw</groupId>

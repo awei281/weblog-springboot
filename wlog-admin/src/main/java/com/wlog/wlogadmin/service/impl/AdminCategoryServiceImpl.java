@@ -1,19 +1,23 @@
 package com.wlog.wlogadmin.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wlog.wlogadmin.mapper.CategoryMapper;
 import com.wlog.wlogadmin.model.vo.AddCategoryReqVO;
 import com.wlog.wlogadmin.model.vo.FindCategoryPageListReqVO;
 import com.wlog.wlogadmin.model.vo.FindCategoryPageListRspVO;
 import com.wlog.wlogadmin.service.AdminCategoryService;
 import com.wlog.wlogcommon.domain.dos.CategoryDO;
-import com.wlog.wlogadmin.mapper.CategoryMapper;
 import com.wlog.wlogcommon.enums.ResponseCodeEnum;
 import com.wlog.wlogcommon.exception.BizException;
+import com.wlog.wlogcommon.utils.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -63,5 +67,26 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         // 执行分页查询
         return categoryMapper.selectFindCategoryPage(page,findCategoryPageListReqVO);
 
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+        CategoryDO categoryDO = categoryMapper.selectById(id);
+        if (Objects.isNull(categoryDO)) {
+            log.warn("分类不存在，id: {}", id);
+            throw new BizException(ResponseCodeEnum.CATEGORY_NOT_EXIST);
+        }else {
+            categoryMapper.deleteById(id);
+        }
+
+    }
+
+    @Override
+    public List<FindCategoryPageListRspVO> listCategory() {
+        List<CategoryDO> list = categoryMapper.selectList(null);
+        if (!CollectionUtils.isEmpty(list)) {
+            return BeanUtils.toBean(list, FindCategoryPageListRspVO.class);
+        }
+        return Collections.emptyList();
     }
 }
