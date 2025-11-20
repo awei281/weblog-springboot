@@ -74,4 +74,19 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         }
         return accessTokenDO;
     }
+
+    @Override
+    @Transactional
+    public OAuth2AccessTokenDO removeAccessToken(String accessToken) {
+        // 查询访问令牌
+        OAuth2AccessTokenDO accessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(accessToken);
+        if (accessTokenDO == null) {
+            return null;
+        }
+        // 删除访问令牌
+        oauth2AccessTokenMapper.deleteById(accessTokenDO.getId());
+        // 删除刷新令牌
+        oauth2RefreshTokenMapper.deleteByRefresh(accessTokenDO.getRefreshToken());
+        return accessTokenDO;
+    }
 }

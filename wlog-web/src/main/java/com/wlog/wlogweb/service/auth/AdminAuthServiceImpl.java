@@ -37,6 +37,17 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     }
 
+    @Override
+    public void logout(String token) {
+        // 删除访问令牌
+        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.removeAccessToken(token);
+        if (accessTokenDO == null) {
+            return;
+        }
+        log.info("用户登出成功, userId: {}", accessTokenDO.getUserId());
+    }
+
+
 
     public AdminUserDO authenticate(String username, String password) {
         // 校验账号是否存在

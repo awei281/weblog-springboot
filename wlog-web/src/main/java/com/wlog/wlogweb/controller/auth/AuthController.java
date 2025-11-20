@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -34,4 +35,15 @@ public class AuthController {
     public Response<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO reqVO) {
         return Response.success(authService.login(reqVO));
     }
+
+    @PostMapping("/logout")
+    @Operation(summary = "登出系统")
+    public Response<Boolean> logout(@RequestHeader(value = "Authorization", required = true) String authorization) {
+        // 提取 token，去掉 "Bearer " 前缀
+        String token = authorization.replace("Bearer ", "");
+        authService.logout(token);
+        return Response.success(true);
+    }
+
+
 }

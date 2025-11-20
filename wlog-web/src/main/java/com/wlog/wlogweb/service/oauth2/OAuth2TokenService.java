@@ -31,4 +31,12 @@ public interface OAuth2TokenService {
      * @return 访问令牌的信息
      */
     OAuth2AccessTokenDO checkAccessToken(String accessToken);
+
+    /**
+     * 删除访问令牌
+     *
+     * @param accessToken 访问令牌
+     * @return 访问令牌的信息
+     */
+    OAuth2AccessTokenDO removeAccessToken(String accessToken);
 }

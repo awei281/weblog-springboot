@@ -1,8 +1,11 @@
 package com.wlog.wlogweb.service.user;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wlog.wlogcommon.domain.dos.AdminUserDO;
+import com.wlog.wlogweb.controller.user.vo.UserPageReqVO;
 import com.wlog.wlogweb.controller.user.vo.UserRespVO;
 import com.wlog.wlogweb.controller.user.vo.UserSaveReqVO;
+import com.wlog.wlogweb.controller.user.vo.UserUpdReqVO;
 
 import javax.validation.Valid;
 
@@ -53,4 +56,19 @@ public interface AdminUserService {
      * @return 是否匹配
      */
     boolean isPasswordMatch(String rawPassword, String encodedPassword);
+
+    /**
+     * 更新用户密码
+     *
+     * @param reqVO 更新信息
+     */
+    void updatePassword(@Valid UserUpdReqVO reqVO);
+
+    /**
+     * 分页查询用户列表
+     *
+     * @param pageReqVO 分页查询条件
+     * @return 用户分页数据
+     */
+    IPage<UserRespVO> getUserPage(@Valid UserPageReqVO pageReqVO);
 }

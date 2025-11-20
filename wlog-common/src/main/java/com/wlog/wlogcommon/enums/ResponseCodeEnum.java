@@ -20,6 +20,7 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     PRODUCT_NOT_FOUND("20000", "该产品不存在（测试使用）"),
     USER_NOT_FOUND("20001", "用户不存在"),
     INCORRECT_ACCOUNT_OR_PASSWORD("20002", "账户或密码有误（测试使用）"),
+    CATEGORY_NAME_IS_EXISTED("20005", "该分类已存在，请勿重复添加！"),
 
 
 

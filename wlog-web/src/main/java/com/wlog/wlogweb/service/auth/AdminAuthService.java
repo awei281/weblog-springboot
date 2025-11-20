@@ -22,6 +22,13 @@ public interface AdminAuthService {
      */
     AuthLoginRespVO login(@Valid AuthLoginReqVO reqVO);
 
+    /**
+     * 退出登录
+     *
+     * @param token 访问令牌
+     */
+    void logout(String token);
+
 
 
 }

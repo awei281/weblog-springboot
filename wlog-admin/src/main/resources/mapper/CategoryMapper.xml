@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wlog.wlogadmin.mapper.CategoryMapper">
+
+    <select id="selectFindCategoryPage" resultType="com.wlog.wlogadmin.model.vo.FindCategoryPageListRspVO">
+        SELECT
+        id,
+        name,
+        create_time AS createTime
+        FROM
+        t_category
+        <where>
+        <if test="findCategoryPageListReqVO.name != null and findCategoryPageListReqVO.name != ''">
+            AND name LIKE CONCAT('%', #{findCategoryPageListReqVO.name}, '%')
+        </if>
+        <if test="findCategoryPageListReqVO.startDate != null">
+            AND create_time >= #{findCategoryPageListReqVO.startDate}
+        </if>
+        <if test="findCategoryPageListReqVO.endDate != null">
+            AND create_time <![CDATA[ <= ]]>#{findCategoryPageListReqVO.endDate}
+        </if>
+        </where>
+    </select>
+</mapper>

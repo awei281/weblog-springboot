@@ -47,6 +47,17 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+
+        <!-- 公共模块 -->
+        <dependency>
+            <groupId>com.wsw</groupId>
+            <artifactId>wlog-common</artifactId>
+        </dependency>
 
     </dependencies>
 
