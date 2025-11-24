@@ -129,3 +129,18 @@ CREATE TABLE `users`  (
 INSERT INTO `users` VALUES (1, 'wsw', '$2a$10$KGH/YLeBnywMMTMqfh7pNu24dOFESxfw1wtdApNr6pRrO1ipTeq4m', '阿威小天才', '17788888888', NULL, 1, '', NULL, '', '2025-11-17 16:31:55', '', '2025-11-17 16:31:55', b'0', '备注');
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+CREATE TABLE `t_task` (
+                          `id` bigint(20) NOT NULL COMMENT '主键id',
+                          `task_type` int(4) DEFAULT NULL COMMENT '1001-计划 1002-进行中 1003-已完成 1004-搁置',
+                          `task_name` varchar(255) DEFAULT NULL COMMENT '任务名称',
+                          `task_date` datetime DEFAULT NULL COMMENT '创建日期',
+                          `fulfil_date` datetime DEFAULT NULL COMMENT '完成时间',
+                          `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+                          `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                          `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+                          `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                          `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

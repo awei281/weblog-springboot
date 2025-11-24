@@ -22,6 +22,7 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     INCORRECT_ACCOUNT_OR_PASSWORD("20002", "账户或密码有误（测试使用）"),
     CATEGORY_NAME_IS_EXISTED("20005", "该分类已存在，请勿重复添加！"),
     CATEGORY_NOT_EXIST ("20006", "该分类不存在"),
+    TASK_TYPE_NOT_SUPPORTED ("20007", "不支持该类型任务创建"),
 
 
     // ----------- 登录异常状态码 -----------
