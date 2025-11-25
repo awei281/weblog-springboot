@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -39,7 +38,7 @@ public class AdminTaskServiceImpl implements AdminTaskService {
             throw new BizException(ResponseCodeEnum.TASK_TYPE_NOT_SUPPORTED);
         }
         TaskDO bean = BeanUtils.toBean(addTaskReqVO, TaskDO.class);
-        bean.setTaskDate(LocalDate.now());
+        bean.setTaskDate(LocalDateTime.now());
         Long loginUserId = getLoginUserId();
         assert loginUserId != null;
         bean.setCreator(loginUserId.toString());
@@ -58,6 +57,8 @@ public class AdminTaskServiceImpl implements AdminTaskService {
         TaskDO bean = BeanUtils.toBean(addTaskReqVO, TaskDO.class);
         if (TaskEnums.TASK_TYPE_DONE.getCode().equals(bean.getTaskType())){
             bean.setFulfilDate(LocalDateTime.now());
+        }else {
+            bean.setFulfilDate(null);
         }
         bean.setUpdateTime(LocalDateTime.now());
         taskMapper.updateById(bean);

@@ -144,3 +144,15 @@ CREATE TABLE `t_task` (
                           `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
                           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `t_tag` (
+                         `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '标签id',
+                         `name` varchar(60) NOT NULL DEFAULT '' COMMENT '标签名称',
+                         `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                         `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后一次更新时间',
+                         `deleted` tinyint(2) NOT NULL DEFAULT '0' COMMENT '逻辑删除标志位：0：未删除 1：已删除',
+                         PRIMARY KEY (`id`) USING BTREE,
+                         UNIQUE KEY `uk_name` (`name`) USING BTREE,
+                         KEY `idx_create_time` (`create_time`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='文章标签表';

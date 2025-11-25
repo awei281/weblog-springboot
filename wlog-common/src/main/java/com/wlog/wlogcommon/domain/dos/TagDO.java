@@ -12,39 +12,24 @@ import java.time.LocalDateTime;
 
 /**
  * @author： wsw
- * @date： 2025/11/24 17:13
+ * @date： 2025/11/25 17:14
  * @describe：
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@TableName("t_task")
-public class TaskDO {
+@TableName("t_tag")
+public class TagDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private String taskName;
-
-    private Integer taskType;
-
-    private LocalDateTime taskDate;
-
-    private LocalDateTime fulfilDate;
-
-    private String creator;
+    private String name;
 
     private LocalDateTime createTime;
-
-    private String updater;
 
     private LocalDateTime updateTime;
 
     private Integer deleted;
-
-    private Integer urgencyType;
-
-    private String remark;
-
 }

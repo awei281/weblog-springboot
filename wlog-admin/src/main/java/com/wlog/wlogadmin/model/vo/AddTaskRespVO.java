@@ -3,7 +3,6 @@ package com.wlog.wlogadmin.model.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -24,7 +23,7 @@ public class AddTaskRespVO {
     private Integer taskType;
 
     @Schema(description = "任务日期")
-    private LocalDate taskDate;
+    private LocalDateTime taskDate;
 
     @Schema(description = "完成时间")
     private LocalDateTime fulfilDate;
