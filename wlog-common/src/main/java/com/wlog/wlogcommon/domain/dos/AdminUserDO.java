@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  *
  * @author wsw
  */
-@TableName(value = "users", autoResultMap = true)
+@TableName(value = "t_users", autoResultMap = true)
 @Data
 @Builder
 @NoArgsConstructor

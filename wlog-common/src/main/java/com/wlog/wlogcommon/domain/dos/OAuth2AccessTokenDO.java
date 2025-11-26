@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  *
  * @author wsw
  */
-@TableName(value = "oauth2_access_token", autoResultMap = true)
+@TableName(value = "t_oauth2_access_token", autoResultMap = true)
 @Data
 @Accessors(chain = true)
 

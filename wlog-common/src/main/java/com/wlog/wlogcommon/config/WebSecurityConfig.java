@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeHttpRequests()
                 // 登录相关接口放行
                 .mvcMatchers("/wlog/auth/login").permitAll()
+                .mvcMatchers("/wlog/user/create").permitAll()
                 // Knife4j 文档相关路径放行
                 .mvcMatchers("/doc.html", "/webjars/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
                 // 需要认证的路径

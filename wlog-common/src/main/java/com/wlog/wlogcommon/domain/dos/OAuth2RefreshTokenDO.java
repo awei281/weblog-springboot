@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  *
  * @author wsw
  */
-@TableName(value = "oauth2_refresh_token", autoResultMap = true)
+@TableName(value = "t_oauth2_refresh_token", autoResultMap = true)
 @Data
 @Accessors(chain = true)
 public class OAuth2RefreshTokenDO  {
