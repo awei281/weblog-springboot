@@ -49,6 +49,8 @@ public class AdminTagController {
     public Response<List<AddTagRespVO>> listTag() {
         return Response.success(tagService.listTag());
     }
+
+
     @PostMapping("/page")
     @Operation(summary = "标签分页")
     public IPage<AddTagRespVO> pageTag(@RequestBody AddTagPageReqVO addTagReqVO) {
