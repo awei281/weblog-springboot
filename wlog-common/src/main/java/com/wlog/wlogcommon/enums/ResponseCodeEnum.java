@@ -23,6 +23,8 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     CATEGORY_NAME_IS_EXISTED("20005", "该分类已存在，请勿重复添加！"),
     CATEGORY_NOT_EXIST ("20006", "该分类不存在"),
     TASK_TYPE_NOT_SUPPORTED ("20007", "不支持该类型任务创建"),
+    CATEGORY_NOT_EXISTED("20008", "提交的分类不存在！"),
+
 
 
     // ----------- 登录异常状态码 -----------
