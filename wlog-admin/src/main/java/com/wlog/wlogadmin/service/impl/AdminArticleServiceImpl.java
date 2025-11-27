@@ -1,24 +1,27 @@
 package com.wlog.wlogadmin.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wlog.wlogadmin.mapper.ArticleCategoryRelMapper;
 import com.wlog.wlogadmin.mapper.ArticleContentMapper;
 import com.wlog.wlogadmin.mapper.ArticleMapper;
 import com.wlog.wlogadmin.mapper.CategoryMapper;
+import com.wlog.wlogadmin.model.vo.ArticlePageVO;
+import com.wlog.wlogadmin.model.vo.ArticleVO;
 import com.wlog.wlogadmin.model.vo.PublishArticleReqVO;
 import com.wlog.wlogadmin.service.AdminArticleService;
+import com.wlog.wlogadmin.service.AdminTagService;
 import com.wlog.wlogcommon.domain.dos.ArticleCategoryRelDO;
 import com.wlog.wlogcommon.domain.dos.ArticleContentDO;
 import com.wlog.wlogcommon.domain.dos.ArticleDO;
 import com.wlog.wlogcommon.domain.dos.CategoryDO;
 import com.wlog.wlogcommon.enums.ResponseCodeEnum;
 import com.wlog.wlogcommon.exception.BizException;
-import com.wlog.wlogcommon.utils.Response;
+import com.wlog.wlogcommon.utils.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,71 +29,68 @@ import java.util.Objects;
 @Slf4j
 public class AdminArticleServiceImpl implements AdminArticleService {
 
-    @Autowired
+    @Resource
     private ArticleMapper articleMapper;
-    @Autowired
+    @Resource
     private ArticleContentMapper articleContentMapper;
-    @Autowired
+    @Resource
     private ArticleCategoryRelMapper articleCategoryRelMapper;
-    @Autowired
+    @Resource
     private CategoryMapper categoryMapper;
+    @Resource
+    private AdminTagService adminTagService;
 
     /**
      * 发布文章
      *
-     * @param publishArticleReqVO
+     * @param publishArticleReqVO 文章信息
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void publishArticle(PublishArticleReqVO publishArticleReqVO) {
-        // 1. VO 转 ArticleDO, 并保存
-        ArticleDO articleDO = ArticleDO.builder()
-                .title(publishArticleReqVO.getTitle())
-                .cover(publishArticleReqVO.getCover())
-                .summary(publishArticleReqVO.getSummary())
-                .createTime(LocalDateTime.now())
-                .updateTime(LocalDateTime.now())
-                .build();
-        articleMapper.insert(articleDO);
-
-        // 拿到插入记录的主键 ID
-        Long articleId = articleDO.getId();
-
-        // 2. VO 转 ArticleContentDO，并保存
+        ArticleDO bean = BeanUtils.toBean(publishArticleReqVO, ArticleDO.class);
+        articleMapper.insert(bean);
+        Long articleId = bean.getId();
         ArticleContentDO articleContentDO = ArticleContentDO.builder()
                 .articleId(articleId)
                 .content(publishArticleReqVO.getContent())
                 .build();
         articleContentMapper.insert(articleContentDO);
-
-        // 3. 处理文章关联的分类
         Long categoryId = publishArticleReqVO.getCategoryId();
-
-        // 3.1 校验提交的分类是否真实存在
         CategoryDO categoryDO = categoryMapper.selectById(categoryId);
         if (Objects.isNull(categoryDO)) {
             log.warn("==> 分类不存在, categoryId: {}", categoryId);
             throw new BizException(ResponseCodeEnum.CATEGORY_NOT_EXISTED);
         }
-        
         ArticleCategoryRelDO articleCategoryRelDO = ArticleCategoryRelDO.builder()
                 .articleId(articleId)
                 .categoryId(categoryId)
                 .build();
         articleCategoryRelMapper.insert(articleCategoryRelDO);
-
-        // 4. 保存文章关联的标签集合
         List<String> publishTags = publishArticleReqVO.getTags();
-        insertTags(publishTags);
+        adminTagService.addTag(publishTags);
+    }
+
+    @Override
+    public void updateArticle(PublishArticleReqVO publishArticleReqVO) {
 
     }
 
-    /**
-     * 保存标签
-     * @param publishTags
-     */
-    private void insertTags(List<String> publishTags) {
-        // TODO 
+    @Override
+    public void deleteArticle(Long id) {
+
     }
+
+    @Override
+    public IPage<ArticleVO> pageArticle(ArticlePageVO articlePageVO) {
+        return null;
+    }
+
+    @Override
+    public ArticleVO getArticle(Long id) {
+        return null;
+    }
+
+
 }

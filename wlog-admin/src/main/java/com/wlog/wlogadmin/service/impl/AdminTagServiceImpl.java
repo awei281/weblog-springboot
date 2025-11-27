@@ -37,6 +37,21 @@ public class AdminTagServiceImpl implements AdminTagService {
     }
 
     @Override
+    public void addTag(List<String> publishTags) {
+        publishTags.forEach(tagName -> {
+            TagDO tagDO = tagMapper.selectOne(TagDO::getName, tagName);
+            if (tagDO != null) {
+                return;
+            }
+            tagDO = TagDO.builder()
+                    .name(tagName)
+                    .createTime(LocalDateTime.now())
+                    .build();
+            tagMapper.insert(tagDO);
+        });
+    }
+
+    @Override
     public void deleteTag(Long tagId) {
         tagMapper.deleteById(tagId);
     }

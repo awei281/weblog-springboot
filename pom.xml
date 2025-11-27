@@ -37,6 +37,7 @@
         <mysql.version>8.0.33</mysql.version>
         <mybatis-plus-join.version>1.4.10</mybatis-plus-join.version>
         <minio.version>8.5.7</minio.version>
+        <okhttp3.version>4.12.0</okhttp3.version>
         <tika-core.version>2.9.1</tika-core.version>
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
     </properties>
@@ -116,11 +117,18 @@
                 <version>${mybatis-plus-join.version}</version>
             </dependency>
 
-            <!--            添加minio 8.5.7-->
+            <!-- MinIO 对象存储 -->
             <dependency>
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+
+            <!-- OkHttp (MinIO 依赖) -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp3.version}</version>
             </dependency>
 
             <dependency>

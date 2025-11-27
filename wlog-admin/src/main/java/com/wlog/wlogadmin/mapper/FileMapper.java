@@ -1,6 +1,6 @@
 package com.wlog.wlogadmin.mapper;
 
-import com.wlog.wlogcommon.config.BaseMapperSupper;
+import com.wlog.wlogcommon.config.mybatis.BaseMapperSupper;
 import com.wlog.wlogcommon.domain.dos.FileDO;
 import org.apache.ibatis.annotations.Mapper;
 

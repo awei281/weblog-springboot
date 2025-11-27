@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wlog.wlogadmin.model.vo.FilePageReqVO;
 import com.wlog.wlogadmin.model.vo.FileRespVO;
 import com.wlog.wlogadmin.model.vo.FileUploadReqVO;
+import com.wlog.wlogadmin.model.vo.UploadFileRspVO;
 import com.wlog.wlogadmin.service.FileService;
 import com.wlog.wlogcommon.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,13 +32,21 @@ import static com.wlog.wlogcommon.config.file.core.utils.FileTypeUtils.writeAtta
  */
 @Tag(name = "管理后台 - 文件存储")
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/wlog/file")
 @Validated
 @Slf4j
 public class AdminFileController {
 
     @Resource
     private FileService fileService;
+
+
+
+    @PostMapping("/simple/upload")
+    @Operation(summary = "简单上传文件")
+    public Response<UploadFileRspVO> uploadFileSimple(@RequestParam MultipartFile file) throws Exception {
+        return Response.success(fileService.createFile(file));
+    }
 
     @PostMapping("/upload")
     @Operation(summary = "上传文件", description = "模式一：后端上传文件")

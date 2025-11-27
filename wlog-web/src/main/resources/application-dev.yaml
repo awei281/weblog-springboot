@@ -23,6 +23,18 @@ spring:
       connection-timeout: 30000
       connection-test-query: SELECT 1
 
+  # Spring Security
+  security:
+    user:
+      name: admin # 登录用户名
+      password: admin # 登录密码
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB # 限制单个上传文件的最大大小为 10MB
+      max-request-size: 10MB # 限制整个上传请求的最大大小为 10MB
+
 # MyBatis-Plus configuration
 mybatis-plus:
   configuration:
@@ -33,7 +45,12 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 
-  security:
-    user:
-      name: admin # 登录用户名
-      password: admin # 登录密码
+
+#=================================================================
+# minio
+#=================================================================
+minio:
+  endpoint: http://119.45.233.151:19000
+  accessKey: minio
+  secretKey: hfZX7ictZr6dc6HN
+  bucketName: wlog

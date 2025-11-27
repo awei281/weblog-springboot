@@ -14,6 +14,10 @@ import java.util.List;
 public interface AdminTagService {
     void addTag(AddTagPageReqVO addTagReqVO);
 
+    void addTag( List<String> publishTags);
+
+
+
     void deleteTag(Long tagId);
 
     void updateTag(AddTagPageReqVO addTagReqVO);

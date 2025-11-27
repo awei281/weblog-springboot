@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PublishArticleReqVO {
+public class ArticleVO {
 
     private String title;
 
@@ -23,7 +23,7 @@ public class PublishArticleReqVO {
 
     private Long categoryId;
 
-    private List<String> tags;
+    private Integer state;
 
-    private Integer status;
+    private List<String> tags;
 }

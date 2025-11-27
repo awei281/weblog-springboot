@@ -24,6 +24,7 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     CATEGORY_NOT_EXIST ("20006", "该分类不存在"),
     TASK_TYPE_NOT_SUPPORTED ("20007", "不支持该类型任务创建"),
     CATEGORY_NOT_EXISTED("20008", "提交的分类不存在！"),
+    FILE_UPLOAD_FAILED("20009", "文件上传失败！"),
 
 
 
@@ -31,7 +32,9 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     USER_NOT_LOGIN("30000", "用户未登录"),
     USER_LOGIN_ERROR("30001", "用户登录失败"),
     USER_LOGOUT_ERROR("30002", "用户登出失败"),
-    USER_LOGIN_EXPIRED("30003", "用户登录已过期"),
+    USER_LOGIN_EXPIRED("30003", "用户登录已过期")
+
+
     ;
 
     // 异常码
