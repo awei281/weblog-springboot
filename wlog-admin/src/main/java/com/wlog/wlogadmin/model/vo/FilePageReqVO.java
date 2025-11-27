@@ -1,0 +1,32 @@
+package com.wlog.wlogadmin.model.vo;
+
+import com.wlog.wlogcommon.model.BasePageQuery;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
+
+/**
+ * @author wsw
+ */
+@Schema(description = "管理后台 - 文件分页 Request VO")
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class FilePageReqVO extends BasePageQuery {
+
+    @Schema(description = "文件路径，模糊匹配", example = "yudao")
+    private String path;
+
+    @Schema(description = "文件类型，模糊匹配", example = "jpg")
+    private String type;
+
+    @Schema(description = "创建时间")
+    private LocalDateTime createTimeStart;
+
+    @Schema(description = "创建时间")
+    private LocalDateTime createTimeEnd;
+
+}
