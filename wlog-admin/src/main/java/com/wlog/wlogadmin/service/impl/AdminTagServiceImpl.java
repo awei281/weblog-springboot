@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wlog.wlogadmin.mapper.TagMapper;
 import com.wlog.wlogadmin.model.vo.AddTagPageReqVO;
 import com.wlog.wlogadmin.model.vo.AddTagRespVO;
+import com.wlog.wlogadmin.model.vo.AddTagVO;
 import com.wlog.wlogadmin.service.AdminTagService;
 import com.wlog.wlogcommon.domain.dos.TagDO;
 import com.wlog.wlogcommon.utils.BeanUtils;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author： wsw
@@ -31,6 +34,11 @@ public class AdminTagServiceImpl implements AdminTagService {
 
     @Override
     public void addTag(AddTagPageReqVO addTagReqVO) {
+        TagDO tagDO = tagMapper.selectOne(TagDO::getName, addTagReqVO.getName(), TagDO::getDeleted, Boolean.FALSE);
+        if (tagDO != null) {
+            log.warn("==> 标签已存在, name: {}", addTagReqVO.getName());
+            return;
+        }
         TagDO bean = BeanUtils.toBean(addTagReqVO, TagDO.class);
         bean.setCreateTime(LocalDateTime.now());
         tagMapper.insert( bean);
@@ -47,7 +55,7 @@ public class AdminTagServiceImpl implements AdminTagService {
                     .name(tagName)
                     .createTime(LocalDateTime.now())
                     .build();
-            tagMapper.insert(tagDO);
+             tagMapper.insert(tagDO);
         });
     }
 
@@ -64,8 +72,11 @@ public class AdminTagServiceImpl implements AdminTagService {
     }
 
     @Override
-    public List<AddTagRespVO> listTag() {
+    public List<AddTagRespVO> listTag(AddTagVO addTagVO) {
         LambdaQueryWrapper<TagDO> queryWrapper = new LambdaQueryWrapper<>();
+        if (addTagVO.getName() != null){
+            queryWrapper.like(TagDO::getName, addTagVO.getName());
+        }
         queryWrapper.eq(TagDO::getDeleted, Boolean.FALSE);
         queryWrapper.orderByDesc(TagDO::getCreateTime);
         List<TagDO> tagList = tagMapper.selectList(queryWrapper);

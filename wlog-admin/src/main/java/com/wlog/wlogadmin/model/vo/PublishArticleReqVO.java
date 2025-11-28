@@ -13,6 +13,8 @@ import java.util.List;
 @Builder
 public class PublishArticleReqVO {
 
+    private Long id;
+
     private String title;
 
     private String content;

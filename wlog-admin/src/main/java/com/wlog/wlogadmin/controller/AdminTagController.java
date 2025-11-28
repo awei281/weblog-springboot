@@ -3,6 +3,7 @@ package com.wlog.wlogadmin.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wlog.wlogadmin.model.vo.AddTagPageReqVO;
 import com.wlog.wlogadmin.model.vo.AddTagRespVO;
+import com.wlog.wlogadmin.model.vo.AddTagVO;
 import com.wlog.wlogadmin.service.AdminTagService;
 import com.wlog.wlogcommon.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,8 +47,8 @@ public class AdminTagController {
 
     @PostMapping("/list")
     @Operation(summary = "标签列表")
-    public Response<List<AddTagRespVO>> listTag() {
-        return Response.success(tagService.listTag());
+    public Response<List<AddTagRespVO>> listTag(@RequestBody AddTagVO addTagVO) {
+        return Response.success(tagService.listTag(addTagVO));
     }
 
 
@@ -56,6 +57,8 @@ public class AdminTagController {
     public IPage<AddTagRespVO> pageTag(@RequestBody AddTagPageReqVO addTagReqVO) {
         return tagService.pageTag(addTagReqVO);
     }
+
+
 
 
 

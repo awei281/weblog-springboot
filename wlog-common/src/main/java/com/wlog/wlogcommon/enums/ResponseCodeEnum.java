@@ -25,6 +25,7 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     TASK_TYPE_NOT_SUPPORTED ("20007", "不支持该类型任务创建"),
     CATEGORY_NOT_EXISTED("20008", "提交的分类不存在！"),
     FILE_UPLOAD_FAILED("20009", "文件上传失败！"),
+    ARTICLE_NOT_EXISTED ("20010", "文章不存在"),
 
 
 

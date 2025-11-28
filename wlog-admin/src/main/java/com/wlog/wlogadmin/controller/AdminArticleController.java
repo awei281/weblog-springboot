@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/wlog/article")
 @Tag(name = " 文章模块")
 public class AdminArticleController {
 
@@ -48,10 +48,10 @@ public class AdminArticleController {
         return Response.success(articleService.pageArticle(articlePageVO));
     }
 
-    @PostMapping("/get/{id}")
+    @PostMapping("/get")
     @Operation(summary = "文章获取")
-    public Response<ArticleVO> getArticle(@PathVariable Long id) {
-        return Response.success(articleService.getArticle(id));
+    public Response<ArticleVO> getArticle(@RequestBody PublishArticleReqVO publishArticleReqVO  ) {
+        return Response.success(articleService.getArticle(publishArticleReqVO.getId()));
     }
 
 

@@ -3,6 +3,7 @@ package com.wlog.wlogadmin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wlog.wlogadmin.model.vo.AddTagPageReqVO;
 import com.wlog.wlogadmin.model.vo.AddTagRespVO;
+import com.wlog.wlogadmin.model.vo.AddTagVO;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public interface AdminTagService {
     void addTag(AddTagPageReqVO addTagReqVO);
 
-    void addTag( List<String> publishTags);
+   void addTag(List<String> publishTags);
 
 
 
@@ -22,7 +23,7 @@ public interface AdminTagService {
 
     void updateTag(AddTagPageReqVO addTagReqVO);
 
-    List<AddTagRespVO> listTag();
+    List<AddTagRespVO> listTag(AddTagVO addTagVO);
 
     IPage<AddTagRespVO> pageTag(AddTagPageReqVO addTagReqVO);
 }

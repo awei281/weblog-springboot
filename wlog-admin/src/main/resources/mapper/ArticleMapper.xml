@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wlog.wlogadmin.mapper.ArticleMapper">
+
+    <select id="pageArticle" resultType="com.wlog.wlogadmin.model.vo.ArticleVO">
+        select * from t_article as ta
+        <where>
+            <if test="articlePageVO.title != null and articlePageVO.title != ''">
+                ta.title like concat('%', #{articlePageVO.title}, '%')
+            </if>
+            <if test="articlePageVO.startDate!=null and articlePageVO.endDate != null "  >
+                and ta.create_time between #{articlePageVO.startDate} and #{articlePageVO.endDate}
+            </if>
+        </where>
+    </select>
+</mapper>

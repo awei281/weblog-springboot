@@ -53,7 +53,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         // 校验账号是否存在
         AdminUserDO user = userService.getUserByUsername(username);
         if (user == null) {
-            throw new BizException(ResponseCodeEnum.USER_NOT_FOUND);
+            throw new BizException(ResponseCodeEnum.INCORRECT_ACCOUNT_OR_PASSWORD);
         }
         if (!userService.isPasswordMatch(password, user.getPassword())) {
             throw new BizException(ResponseCodeEnum.INCORRECT_ACCOUNT_OR_PASSWORD);

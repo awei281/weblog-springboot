@@ -14,8 +14,8 @@ public class ArticlePageVO  extends BasePageQuery {
 
     private String title;
 
-    private LocalDateTime dateTimeStart;
+    private LocalDateTime startDate;
 
-    private LocalDateTime dateTimeEnd;
+    private LocalDateTime endDate;
 
 }

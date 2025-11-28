@@ -35,4 +35,6 @@ public class ArticleDO {
     private Long readNum;
 
     private Integer state;
+
+    private LocalDateTime pushTime;
 }

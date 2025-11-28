@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -12,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ArticleVO {
+
+    private Long id;
 
     private String title;
 
@@ -25,5 +28,9 @@ public class ArticleVO {
 
     private Integer state;
 
-    private List<String> tags;
+    private List<Long> tags;
+
+    private LocalDateTime pushTime;
+
+
 }
