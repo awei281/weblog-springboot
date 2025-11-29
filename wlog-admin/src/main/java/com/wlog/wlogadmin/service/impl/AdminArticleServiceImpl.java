@@ -13,6 +13,7 @@ import com.wlog.wlogcommon.enums.ResponseCodeEnum;
 import com.wlog.wlogcommon.exception.BizException;
 import com.wlog.wlogcommon.utils.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +62,6 @@ public class AdminArticleServiceImpl implements AdminArticleService {
         Long categoryId = publishArticleReqVO.getCategoryId();
         CategoryDO categoryDO = categoryMapper.selectById(categoryId);
         if (Objects.isNull(categoryDO)) {
-            log.warn("==> 分类不存在, categoryId: {}", categoryId);
             throw new BizException(ResponseCodeEnum.CATEGORY_NOT_EXISTED);
         }
         ArticleCategoryRelDO articleCategoryRelDO = ArticleCategoryRelDO.builder()
@@ -70,23 +70,85 @@ public class AdminArticleServiceImpl implements AdminArticleService {
                 .build();
         articleCategoryRelMapper.insert(articleCategoryRelDO);
 
-        List<String> publishTags = publishArticleReqVO.getTags();
-         adminTagService.addTag(publishTags);
+        List<Long> publishTags = publishArticleReqVO.getTags();
+        List<String> newTags = publishArticleReqVO.getNewTags();
+         adminTagService.addTag(newTags);
 
         // publishTags 转成ArticleTagRelDO
-        List<ArticleTagRelDO> collect = publishTags.stream().map(
-                tagName -> ArticleTagRelDO.builder()
-                        .articleId(articleId)
-                        .tagId(tagMapper.selectOne(TagDO::getName, tagName).getId())
-                        .build()
-        ).collect(Collectors.toList());
+        List<ArticleTagRelDO> collect = getArticleTagRelDOS(publishTags, articleId, newTags);
 
         articleTagRelMapper.insertBatch(collect);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateArticle(PublishArticleReqVO publishArticleReqVO) {
+        Long articleId = publishArticleReqVO.getId();
+        // 检查文章是否存在
+        ArticleDO existingArticle = articleMapper.selectById(articleId);
+        if (Objects.isNull(existingArticle)) {
+            log.warn("==> 文章不存在, articleId: {}", articleId);
+            throw new BizException(ResponseCodeEnum.ARTICLE_NOT_EXISTED);
+        }
 
+        // 更新文章基本信息
+        ArticleDO articleDO = BeanUtils.toBean(publishArticleReqVO, ArticleDO.class);
+        articleMapper.updateById(articleDO);
+
+        // 更新文章内容
+        ArticleContentDO articleContentDO = articleContentMapper.selectOne(ArticleContentDO::getArticleId, articleId);
+        if (Objects.nonNull(articleContentDO)) {
+            articleContentDO.setContent(publishArticleReqVO.getContent());
+            articleContentMapper.updateById(articleContentDO);
+        }
+
+        // 更新分类关系
+        Long categoryId = publishArticleReqVO.getCategoryId();
+        CategoryDO categoryDO = categoryMapper.selectById(categoryId);
+        if (Objects.isNull(categoryDO)) {
+            log.warn("==> 分类不存在, categoryId: {}", categoryId);
+            throw new BizException(ResponseCodeEnum.CATEGORY_NOT_EXISTED);
+        }
+
+        // 删除旧的分类关系，插入新的分类关系
+        articleCategoryRelMapper.delete(ArticleCategoryRelDO::getArticleId, articleId);
+        ArticleCategoryRelDO articleCategoryRelDO = ArticleCategoryRelDO.builder()
+                .articleId(articleId)
+                .categoryId(categoryId)
+                .build();
+        articleCategoryRelMapper.insert(articleCategoryRelDO);
+
+        // 更新标签关系
+        List<Long> publishTags = publishArticleReqVO.getTags();
+        List<String> newTags = publishArticleReqVO.getNewTags();
+        adminTagService.addTag(newTags);
+
+        // 删除旧的标签关系
+        articleTagRelMapper.delete(ArticleTagRelDO::getArticleId, articleId);
+
+        List<ArticleTagRelDO> articleTagRelList = getArticleTagRelDOS(publishTags, articleId, newTags);
+
+        articleTagRelMapper.insertBatch(articleTagRelList);
+    }
+
+    @NotNull
+    private List<ArticleTagRelDO> getArticleTagRelDOS(List<Long> publishTags, Long articleId, List<String> newTags) {
+        // 插入新的标签关系
+        List<ArticleTagRelDO> articleTagRelList = publishTags.stream().map(
+                tagId -> ArticleTagRelDO.builder()
+                        .articleId(articleId)
+                        .tagId(tagId)
+                        .build()
+        ).collect(Collectors.toList());
+
+
+        articleTagRelList.addAll(newTags.stream().map(
+                tagName -> ArticleTagRelDO.builder()
+                        .articleId(articleId)
+                        .tagId(tagMapper.selectOne(TagDO::getName, tagName).getId())
+                        .build()
+        ).collect(Collectors.toList()));
+        return articleTagRelList;
     }
 
     @Override

@@ -25,7 +25,9 @@ public class PublishArticleReqVO {
 
     private Long categoryId;
 
-    private List<String> tags;
+    private List<Long> tags;
+
+    private List<String> newTags;
 
     private Integer status;
 }

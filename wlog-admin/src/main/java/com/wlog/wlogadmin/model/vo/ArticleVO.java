@@ -32,5 +32,7 @@ public class ArticleVO {
 
     private LocalDateTime pushTime;
 
+    private LocalDateTime createTime;
+
 
 }
