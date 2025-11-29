@@ -13,11 +13,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 @Tag(name = "分类模块")
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/wlog/category")
 
 public class AdminCategoryController {
 
@@ -51,6 +52,13 @@ public class AdminCategoryController {
     @PostMapping("/list")
     @Operation(summary = "分类列表")
     public Response<List<FindCategoryPageListRspVO>> listCategory() {
+        return Response.success(categoryService.listCategory());
+    }
+
+    @PostMapping("/web/list")
+    @Operation(summary = "web分类列表")
+    @PermitAll
+    public Response<List<FindCategoryPageListRspVO>> webListCategory() {
         return Response.success(categoryService.listCategory());
     }
 }

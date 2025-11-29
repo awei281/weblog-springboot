@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Tag(name = "任务模块")
 @RestController
-    @RequestMapping("/tag")
+    @RequestMapping("wolg/tag")
 
 public class AdminTagController {
 
@@ -48,6 +49,13 @@ public class AdminTagController {
     @PostMapping("/list")
     @Operation(summary = "标签列表")
     public Response<List<AddTagRespVO>> listTag(@RequestBody AddTagVO addTagVO) {
+        return Response.success(tagService.listTag(addTagVO));
+    }
+
+    @PostMapping("/web/list")
+    @Operation(summary = "标签列表")
+    @PermitAll
+    public Response<List<AddTagRespVO>> webListTag(@RequestBody AddTagVO addTagVO) {
         return Response.success(tagService.listTag(addTagVO));
     }
 

@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 
 @RestController
 @RequestMapping("/wlog/article")
@@ -45,6 +46,13 @@ public class AdminArticleController {
     @PostMapping("/page")
     @Operation(summary = "文章分页")
     public Response<IPage<ArticleVO>> pageArticle(@RequestBody @Validated ArticlePageVO articlePageVO) {
+        return Response.success(articleService.pageArticle(articlePageVO));
+    }
+
+    @PostMapping("/web/page")
+    @PermitAll
+    @Operation(summary = "web文章分页")
+    public Response<IPage<ArticleVO>> webPageArticle(@RequestBody @Validated ArticlePageVO articlePageVO) {
         return Response.success(articleService.pageArticle(articlePageVO));
     }
 

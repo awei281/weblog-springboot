@@ -3,10 +3,11 @@
 <mapper namespace="com.wlog.wlogadmin.mapper.ArticleMapper">
 
     <select id="pageArticle" resultType="com.wlog.wlogadmin.model.vo.ArticleVO">
-        select * from t_article as ta
+        select ta.*, tac.category_id from t_article as ta left join  t_article_category_rel tac on ta.id = tac.article_id
         <where>
+            ta.is_deleted = 0
             <if test="articlePageVO.title != null and articlePageVO.title != ''">
-                ta.title like concat('%', #{articlePageVO.title}, '%')
+                and  ta.title like concat('%', #{articlePageVO.title}, '%')
             </if>
             <if test="articlePageVO.startDate!=null and articlePageVO.endDate != null "  >
                 and ta.create_time between #{articlePageVO.startDate} and #{articlePageVO.endDate}

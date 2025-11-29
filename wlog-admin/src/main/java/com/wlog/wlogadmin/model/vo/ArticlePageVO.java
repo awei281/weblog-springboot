@@ -18,4 +18,6 @@ public class ArticlePageVO  extends BasePageQuery {
 
     private LocalDateTime endDate;
 
+    private Boolean isWeb;
+
 }

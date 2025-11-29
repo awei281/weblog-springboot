@@ -4,12 +4,17 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wlog.wlogadmin.mapper.ArticleCategoryRelMapper;
+import com.wlog.wlogadmin.mapper.ArticleTagRelMapper;
 import com.wlog.wlogadmin.mapper.TagMapper;
 import com.wlog.wlogadmin.model.vo.AddTagPageReqVO;
 import com.wlog.wlogadmin.model.vo.AddTagRespVO;
 import com.wlog.wlogadmin.model.vo.AddTagVO;
 import com.wlog.wlogadmin.service.AdminTagService;
+import com.wlog.wlogcommon.domain.dos.ArticleTagRelDO;
 import com.wlog.wlogcommon.domain.dos.TagDO;
+import com.wlog.wlogcommon.enums.ResponseCodeEnum;
+import com.wlog.wlogcommon.exception.BizException;
 import com.wlog.wlogcommon.utils.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,9 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author： wsw
@@ -31,6 +34,8 @@ import java.util.Map;
 public class AdminTagServiceImpl implements AdminTagService {
     @Resource
     private TagMapper tagMapper;
+    @Resource
+    private ArticleTagRelMapper articleTagRelMapper;
 
     @Override
     public void addTag(AddTagPageReqVO addTagReqVO) {
@@ -61,6 +66,11 @@ public class AdminTagServiceImpl implements AdminTagService {
 
     @Override
     public void deleteTag(Long tagId) {
+        //检查标签是否还在使用
+        List<ArticleTagRelDO> articleTagRelList = articleTagRelMapper.selectList(ArticleTagRelDO::getTagId, tagId);
+        if (CollectionUtil.isNotEmpty(articleTagRelList)) {
+           throw new BizException(ResponseCodeEnum.TAG_STILL_USE_NOT_REMOVED);
+        }
         tagMapper.deleteById(tagId);
     }
 

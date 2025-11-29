@@ -26,9 +26,13 @@ public class ArticleVO {
 
     private Long categoryId;
 
+    private String categoryName;
+
     private Integer state;
 
     private List<Long> tags;
+
+    private List<AddTagRespVO> tagList;
 
     private LocalDateTime pushTime;
 

@@ -20,12 +20,15 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     PRODUCT_NOT_FOUND("20000", "该产品不存在（测试使用）"),
     USER_NOT_FOUND("20001", "用户不存在"),
     INCORRECT_ACCOUNT_OR_PASSWORD("20002", "账户或密码有误（测试使用）"),
+    TAG_NAME_IS_EXISTED("20004", "标签已存在,请勿宠物添加!"),
     CATEGORY_NAME_IS_EXISTED("20005", "该分类已存在，请勿重复添加！"),
     CATEGORY_NOT_EXIST ("20006", "该分类不存在"),
     TASK_TYPE_NOT_SUPPORTED ("20007", "不支持该类型任务创建"),
     CATEGORY_NOT_EXISTED("20008", "提交的分类不存在！"),
     FILE_UPLOAD_FAILED("20009", "文件上传失败！"),
     ARTICLE_NOT_EXISTED ("20010", "文章不存在"),
+    TAG_STILL_USE_NOT_REMOVED ("20011", "标签还在使用,请勿删除"),
+    CATEGORY_STILL_USE_NOT_REMOVED ("20012", "分类还在使用请,勿删除"),
 
 
 

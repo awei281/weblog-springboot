@@ -3,11 +3,13 @@ package com.wlog.wlogadmin.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wlog.wlogadmin.mapper.ArticleCategoryRelMapper;
 import com.wlog.wlogadmin.mapper.CategoryMapper;
 import com.wlog.wlogadmin.model.vo.AddCategoryReqVO;
 import com.wlog.wlogadmin.model.vo.FindCategoryPageListReqVO;
 import com.wlog.wlogadmin.model.vo.FindCategoryPageListRspVO;
 import com.wlog.wlogadmin.service.AdminCategoryService;
+import com.wlog.wlogcommon.domain.dos.ArticleCategoryRelDO;
 import com.wlog.wlogcommon.domain.dos.CategoryDO;
 import com.wlog.wlogcommon.enums.ResponseCodeEnum;
 import com.wlog.wlogcommon.exception.BizException;
@@ -26,6 +28,9 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
 
     @Resource
     private CategoryMapper categoryMapper;
+
+    @Resource
+    private ArticleCategoryRelMapper articleCategoryRelMapper;
 
     /**
      * 添加分类
@@ -76,6 +81,10 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
             log.warn("分类不存在，id: {}", id);
             throw new BizException(ResponseCodeEnum.CATEGORY_NOT_EXIST);
         }else {
+            List<ArticleCategoryRelDO> articleCategoryRelList = articleCategoryRelMapper.selectList(ArticleCategoryRelDO::getCategoryId, id);
+            if (!CollectionUtils.isEmpty(articleCategoryRelList)) {
+                throw new BizException(ResponseCodeEnum.CATEGORY_STILL_USE_NOT_REMOVED);
+            }
             categoryMapper.deleteById(id);
         }
 

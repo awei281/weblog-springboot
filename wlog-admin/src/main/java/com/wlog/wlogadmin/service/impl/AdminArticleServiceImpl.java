@@ -1,8 +1,10 @@
 package com.wlog.wlogadmin.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wlog.wlogadmin.mapper.*;
+import com.wlog.wlogadmin.model.vo.AddTagRespVO;
 import com.wlog.wlogadmin.model.vo.ArticlePageVO;
 import com.wlog.wlogadmin.model.vo.ArticleVO;
 import com.wlog.wlogadmin.model.vo.PublishArticleReqVO;
@@ -72,7 +74,7 @@ public class AdminArticleServiceImpl implements AdminArticleService {
 
         List<Long> publishTags = publishArticleReqVO.getTags();
         List<String> newTags = publishArticleReqVO.getNewTags();
-         adminTagService.addTag(newTags);
+        adminTagService.addTag(newTags);
 
         // publishTags 转成ArticleTagRelDO
         List<ArticleTagRelDO> collect = getArticleTagRelDOS(publishTags, articleId, newTags);
@@ -159,13 +161,30 @@ public class AdminArticleServiceImpl implements AdminArticleService {
     @Override
     public IPage<ArticleVO> pageArticle(ArticlePageVO articlePageVO) {
         Page<ArticleVO> page = new Page<>(articlePageVO.getCurrent(), articlePageVO.getSize());
-        return articleMapper.pageArticle (page ,articlePageVO);
+        IPage<ArticleVO> articlePage = articleMapper.pageArticle(page, articlePageVO);
+        //判断请求路径
+        if (articlePageVO.getIsWeb()) {
+            //补充分类名称和 标签集合
+            if (CollectionUtil.isNotEmpty(articlePage.getRecords())) {
+                List<ArticleVO> records = articlePage.getRecords();
+                for (ArticleVO record : records) {
+                    CategoryDO categoryDO = categoryMapper.selectById(record.getCategoryId());
+                    record.setCategoryName(categoryDO.getName());
+                    List<ArticleTagRelDO> articleTagRelList = articleTagRelMapper.selectList(ArticleTagRelDO::getArticleId, record.getId());
+                    List<Long> tagIds = articleTagRelList.stream().map(ArticleTagRelDO::getTagId).collect(Collectors.toList());
+                    List<TagDO> tagList = tagMapper.selectList(TagDO::getId, tagIds);
+                    record.setTagList(BeanUtils.toBean(tagList, AddTagRespVO.class));
+                }
+
+            }
+        }
+        return articlePage;
     }
 
     @Override
     public ArticleVO getArticle(Long id) {
         ArticleDO articleDO = articleMapper.selectById(id);
-        if (articleDO == null){
+        if (articleDO == null) {
             throw new BizException(ResponseCodeEnum.ARTICLE_NOT_EXISTED);
         }
         ArticleVO bean = BeanUtils.toBean(articleDO, ArticleVO.class);
@@ -182,7 +201,7 @@ public class AdminArticleServiceImpl implements AdminArticleService {
         //获取分类
         ArticleCategoryRelDO articleCategoryRelDO = articleCategoryRelMapper.selectOne(ArticleCategoryRelDO::getArticleId, id);
         Long categoryId = articleCategoryRelDO.getCategoryId();
-        bean.setTags( tagIds);
+        bean.setTags(tagIds);
         bean.setCategoryId(categoryId);
         return bean;
     }
