@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Tag(name = "任务模块")
 @RestController
-    @RequestMapping("wolg/tag")
+@RequestMapping("/wlog/tag")
 
 public class AdminTagController {
 

@@ -13,7 +13,6 @@
         <module>wlog-web</module>
         <module>wlog-admin</module>
         <module>wlog-common</module>
-        <module>wlog-jwt</module>
     </modules>
 
     <properties>
