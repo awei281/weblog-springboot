@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wlog.wlogadmin.model.vo.ArticlePageVO;
 import com.wlog.wlogadmin.model.vo.ArticleVO;
 import com.wlog.wlogadmin.model.vo.PublishArticleReqVO;
-
+/**
+ * @author wsw
+ */
 public interface AdminArticleService {
 
     void publishArticle(PublishArticleReqVO publishArticleReqVO);

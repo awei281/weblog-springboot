@@ -22,4 +22,10 @@ public class BizException extends  RuntimeException {
         this.errorCode = baseExceptionInterface.getErrorCode();
         this.errorMessage = baseExceptionInterface.getErrorMessage();
     }
+
+    public BizException(Integer errorCode, String errorMessage) {
+        super(errorMessage);
+        this.errorCode = errorCode.toString();
+        this.errorMessage = errorMessage;
+    }
 }

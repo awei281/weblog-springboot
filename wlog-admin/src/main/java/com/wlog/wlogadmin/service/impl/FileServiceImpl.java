@@ -1,19 +1,18 @@
 package com.wlog.wlogadmin.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wlog.wlogadmin.mapper.FileMapper;
-import com.wlog.wlogadmin.model.vo.FilePageReqVO;
-import com.wlog.wlogadmin.model.vo.FileRespVO;
-import com.wlog.wlogadmin.model.vo.FileUploadReqVO;
-import com.wlog.wlogadmin.model.vo.UploadFileRspVO;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+import com.wlog.wlogadmin.service.FileConfigService;
 import com.wlog.wlogadmin.service.FileService;
-import com.wlog.wlogcommon.config.file.core.utils.MinioUtil;
-import com.wlog.wlogcommon.enums.ResponseCodeEnum;
-import com.wlog.wlogcommon.exception.BizException;
-import com.wlog.wlogcommon.utils.Response;
+import com.wlog.wlogcommon.domain.dos.FileDO;
+import com.wlog.wlogcommon.domain.mapper.FileMapper;
+import com.wlog.wlogcommon.file.FileClient;
+import com.wlog.wlogcommon.utils.FileNameUtil;
+import com.wlog.wlogcommon.utils.FileTypeUtils;
+import com.wlog.wlogcommon.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
@@ -27,52 +26,48 @@ import javax.annotation.Resource;
 public class FileServiceImpl implements FileService {
 
     @Resource
-    private FileMapper fileMapper;
+    private FileConfigService fileConfigService;
+
     @Resource
-    private MinioUtil minioUtil;
-
-    @Override
-    public UploadFileRspVO createFile(MultipartFile  file) {
-        try {
-            // 上传文件
-            String url = minioUtil.uploadFile(file);
-
-            // 构建成功返参，将图片的访问链接返回
-            return UploadFileRspVO.builder().url(url).build();
-        } catch (Exception e) {
-            log.error("==> 上传文件至 Minio 错误: ", e);
-            // 手动抛出业务异常，提示 “文件上传失败”
-            throw new BizException(ResponseCodeEnum.FILE_UPLOAD_FAILED);
-        }
-    }
-
-
-
-
+    private FileMapper fileMapper;
 
     @Override
     public String createFile(Long fileConfigId, String name, String path, byte[] content) {
-     return null;
+        // 计算默认的 path 名
+        String type = FileTypeUtils.getMineType(content, name);
+        if (StrUtil.isEmpty(path)) {
+            path = FileUtils.generatePath(content, name);
+        }
+        // 如果 name 为空，则使用 path 填充
+        if (StrUtil.isEmpty(name)) {
+            name = path;
+        }
+        String newName = FileNameUtil.addTimestampToFileName(name);
+        // 上传到文件存储器
+        FileClient client = fileConfigService.getMasterFileClient(fileConfigId);
+        Assert.notNull(client, "客户端(master) 不能为空");
+        FileDO fileDo = buildFileDo(client, content, newName, type, path);
+        // 保存到数据库
+        fileMapper.insert(fileDo);
+        return fileDo.getUrl();
     }
 
-    @Override
-    public void deleteFile(Long id) throws Exception {
-
+    private static @NotNull FileDO buildFileDo(FileClient client, byte[] bytes, String newName, String type, String path) {
+        String url;
+        try {
+            url = client.upload(bytes, newName, type);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        FileDO fileDo = new FileDO();
+        fileDo.setConfigId(client.getId());
+        fileDo.setName(newName);
+        fileDo.setPath(path);
+        fileDo.setUrl(url);
+        fileDo.setType(type);
+        fileDo.setSize(bytes.length);
+        return fileDo;
     }
 
-    @Override
-    public byte[] getFileContent(Long configId, String path) throws Exception {
-        return new byte[0];
-    }
 
-    @Override
-    public IPage<FileRespVO> getFilePage(FilePageReqVO pageVO) {
-        return null;
-    }
-
-    @Override
-    public String uploadFileSimple(FileUploadReqVO uploadReqVO) {
-
-        return "";
-    }
 }

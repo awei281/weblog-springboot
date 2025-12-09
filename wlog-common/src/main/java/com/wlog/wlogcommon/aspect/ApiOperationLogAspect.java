@@ -1,6 +1,6 @@
 package com.wlog.wlogcommon.aspect;
 
-import com.wlog.wlogcommon.utils.JsonUtil;
+import com.wlog.wlogcommon.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -69,7 +69,7 @@ public class ApiOperationLogAspect {
 
             // 打印出参等相关信息
             log.info("====== 请求结束: [{}], 耗时: {}ms, 出参: {} =================================== ",
-                    description, executionTime, JsonUtil.toJsonString(result));
+                    description, executionTime, JsonUtils.toJsonString(result));
 
             return result;
         } finally {
@@ -101,6 +101,6 @@ public class ApiOperationLogAspect {
      * @return
      */
     private Function<Object, String> toJsonStr() {
-        return arg -> JsonUtil.toJsonString(arg);
+        return arg -> JsonUtils.toJsonString(arg);
     }
 }

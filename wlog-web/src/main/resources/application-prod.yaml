@@ -1,6 +1,55 @@
 server:
-  port: 11003
-
+  port: 11002
 
 logging:
   config: classpath:logback-wlog.xml
+  level:
+    com.wlog.wlogcommon.domain.mapper: debug
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://119.45.233.151:13306/wlog?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: wangshunwei1998
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: Weblog-HikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+  # Spring Security
+  security:
+    user:
+      name: admin # 登录用户名
+      password: admin # 登录密码
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB # 限制单个上传文件的最大大小为 10MB
+      max-request-size: 10MB # 限制整个上传请求的最大大小为 10MB
+
+# MyBatis-Plus configuration
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+
+#=================================================================
+# minio
+#=================================================================
+minio:
+  endpoint: http://119.45.233.151:19000
+  accessKey: minio
+  secretKey: hfZX7ictZr6dc6HN
+  bucketName: wlog

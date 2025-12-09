@@ -6,7 +6,9 @@ import com.wlog.wlogadmin.model.vo.FindCategoryPageListReqVO;
 import com.wlog.wlogadmin.model.vo.FindCategoryPageListRspVO;
 
 import java.util.List;
-
+/**
+ * @author wsw
+ */
 public interface AdminCategoryService {
     /**
      * 添加分类

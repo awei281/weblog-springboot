@@ -1,24 +1,21 @@
 package com.wlog.wlogcommon.domain.dos;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+import lombok.*;
 
 /**
- * @author： wsw
- * @date： 2025/11/27 19:04
- * @describe：
+ * 文件表
+ * 每次文件上传，都会记录一条记录到该表中
+ *
+ * @author htwl
  */
 @TableName("t_file")
 @Data
+@ToString(callSuper = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-public class FileDO {
+public class FileDO  {
 
     /**
      * 编号，数据库自增
@@ -26,7 +23,7 @@ public class FileDO {
     private Long id;
     /**
      * 配置编号
-     * 关联
+     * 关联 {@link FileConfigDO#getId()}
      */
     private Long configId;
     /**
@@ -49,5 +46,8 @@ public class FileDO {
      * 文件大小
      */
     private Integer size;
+
+
+
 
 }

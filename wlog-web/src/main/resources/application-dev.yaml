@@ -9,9 +9,9 @@ logging:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://119.45.233.151:13306/wlog?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://127.0.0.1:3306/wlog?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
     username: root
-    password: wangshunwei1998
+    password: admin123
     hikari:
       minimum-idle: 5
       maximum-pool-size: 20
@@ -48,8 +48,8 @@ mybatis-plus:
 #=================================================================
 # minio
 #=================================================================
-minio:
-  endpoint: http://119.45.233.151:19000
-  accessKey: minio
-  secretKey: hfZX7ictZr6dc6HN
-  bucketName: wlog
+#minio:
+#  endpoint: http://119.45.233.151:19000
+#  accessKey: minio
+#  secretKey: hfZX7ictZr6dc6HN
+#  bucketName: wlog

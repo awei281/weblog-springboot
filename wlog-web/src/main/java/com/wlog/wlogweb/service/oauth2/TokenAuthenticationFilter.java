@@ -3,7 +3,7 @@ package com.wlog.wlogweb.service.oauth2;
 import com.wlog.wlogcommon.domain.dos.OAuth2AccessTokenDO;
 import com.wlog.wlogcommon.enums.ResponseCodeEnum;
 import com.wlog.wlogcommon.exception.BizException;
-import com.wlog.wlogcommon.utils.JsonUtil;
+import com.wlog.wlogcommon.utils.JsonUtils;
 import com.wlog.wlogcommon.utils.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -104,6 +104,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         Response<Object> result = Response.fail(e);
-        response.getWriter().write(JsonUtil.toJsonString(result));
+        response.getWriter().write(JsonUtils.toJsonString(result));
     }
 }

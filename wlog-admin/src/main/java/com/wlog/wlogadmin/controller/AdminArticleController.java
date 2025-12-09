@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
+/**
+ * @author wsw
+ */
 
 @RestController
 @RequestMapping("/wlog/article")
-@Tag(name = " 文章模块")
+@Tag(name = "文章模块")
 public class AdminArticleController {
 
     @Resource
