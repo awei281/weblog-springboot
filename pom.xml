@@ -39,6 +39,7 @@
         <okhttp3.version>4.12.0</okhttp3.version>
         <tika-core.version>2.9.1</tika-core.version>
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
+        <liteflow-spring-boot-starter.version>2.15.2</liteflow-spring-boot-starter.version>
     </properties>
 
     <!-- 统一依赖版本管理 -->
@@ -141,6 +142,13 @@
                 <artifactId>transmittable-thread-local</artifactId> <!-- 解决 ThreadLocal 父子线程的传值问题 -->
                 <version>${transmittable-thread-local.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-spring-boot-starter</artifactId>
+                <version>${liteflow-spring-boot-starter.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

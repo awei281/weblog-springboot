@@ -12,7 +12,11 @@ spring:
 #    default-property-inclusion: non_null
 #    # 设置日期字段格式
 #    date-format: yyyy-MM-dd HH:mm:ss
-
+liteflow:
+  #规则文件路径
+  rule-source: config/flow.xml
+  #liteflow是否开启，默认为true
+  enable: true
 
 wlog:
   info:

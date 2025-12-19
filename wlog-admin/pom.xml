@@ -59,6 +59,14 @@
             <artifactId>wlog-common</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.yomahub</groupId>
+            <artifactId>liteflow-spring-boot-starter</artifactId>
+        </dependency>
+
+
+
     </dependencies>
 
 </project>
