@@ -64,6 +64,11 @@
             <groupId>com.yomahub</groupId>
             <artifactId>liteflow-spring-boot-starter</artifactId>
         </dependency>
+        <!--RabbitMQ-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
 
 
 
