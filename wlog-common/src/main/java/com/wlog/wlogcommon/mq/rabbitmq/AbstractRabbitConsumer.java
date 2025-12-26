@@ -19,53 +19,52 @@ public abstract class AbstractRabbitConsumer<T> {
 
     @Resource
     private RabbitTemplate rabbitTemplate;
-    /**
-     * 最大重试次数
-     */
+
     private static final int MAX_RETRY = 3;
 
-    /**
-     * RabbitMQ 消费模板
-     * 负责：
-     * 1. 调用业务
-     * 2. ACK / NACK
-     * 3. 异常兜底
-     */
     public void consume(T data, Channel channel, Message message) throws IOException {
-        // RabbitMQ 用它标识“这是哪一条消息”
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
             log.info("开始消费消息：{}", data);
             handleMessage(data);
+            // 1. 成功消费，ACK
             channel.basicAck(deliveryTag, false);
         } catch (Exception e) {
-            log.error("消费消息出现异常");
-            onException(e, data, channel, message, deliveryTag);
+            log.error("消费消息出现异常", e);
+            // 2. 异常处理，交由 onException 决定如何 ACK/NACK
+            onException(data, channel, message, deliveryTag);
         }
-        channel.basicAck(deliveryTag, false);
     }
 
     protected abstract void handleMessage(T data);
 
-
-    protected void onException(Exception e, T data, Channel channel, Message message, long deliveryTag) throws IOException {
-        log.error("处理业务异常", e);
+    protected void onException(T data, Channel channel, Message message, long deliveryTag) throws IOException {
         int retryCount = getRetryCount(message);
         log.info("当前重试次数：{}", retryCount);
+
         if (retryCount < MAX_RETRY) {
-            //投送到延迟队列
-            log.error("当前重试次数小于最大重试次数，将消息投递到延迟队列");
+            log.warn("消费失败，执行第 {} 次重试，投递到延迟队列", retryCount + 1);
+
+            // 构建并发送重试消息
             Message retryMsg = buildRetryMessage(message, retryCount + 1);
             rabbitTemplate.send(
                     MqConstants.RETRY_EXCHANGE,
                     MqConstants.RETRY_ROUTING_KEY,
                     retryMsg
             );
-        } else {
-            //投送到死信队列
-            log.error("当前重试次数大于最大重试次数，将消息投递到死信队列");
+
+            // 【重要修正】发送重试消息成功后，必须 ACK 当前这条失败的消息，将其移除
             channel.basicAck(deliveryTag, false);
-//            channel.basicNack(deliveryTag, false, false);
+
+        } else {
+            log.error("超过最大重试次数 ({})，将消息投递到死信队列（或丢弃）", MAX_RETRY);
+
+            // 【重要修正】要让消息进死信队列，必须 Nack 且 requeue=false
+            // 前提是你的队列配置了 x-dead-letter-exchange
+            channel.basicNack(deliveryTag, false, false);
+
+            // 如果你只是想单纯丢弃消息而不进死信，才用 basicAck
+//            channel.basicAck(deliveryTag, false);
         }
     }
 
@@ -73,13 +72,20 @@ public abstract class AbstractRabbitConsumer<T> {
         Object count = message.getMessageProperties()
                 .getHeaders()
                 .getOrDefault("x-retry-count", 0);
-        return (int) count;
+
+        // 【优化】更安全的类型转换
+        if (count instanceof Number) {
+            return ((Number) count).intValue();
+        }
+        return Integer.parseInt(String.valueOf(count));
     }
 
     private Message buildRetryMessage(Message message, int retryCount) {
-        MessageProperties props = new MessageProperties();
-        props.getHeaders().putAll(message.getMessageProperties().getHeaders());
+        // 【优化】保留原消息的所有属性（Content-Type等），只修改 header
+        MessageProperties props = message.getMessageProperties();
         props.setHeader("x-retry-count", retryCount);
+
+        // 注意：使用原 body 和修改后的 props
         return new Message(message.getBody(), props);
     }
 }

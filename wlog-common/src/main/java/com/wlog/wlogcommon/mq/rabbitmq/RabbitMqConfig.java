@@ -22,10 +22,10 @@ public class RabbitMqConfig {
 
     public Queue testQueue() {
         //  指定死信交换机 指定死信路由键
-//        Map<String, Object> args = new HashMap<>();
-//        args.put("x-dead-letter-exchange", MqConstants.DLX_EXCHANGE);
-//        args.put("x-dead-letter-routing-key", MqConstants.DLX_ROUTING_KEY);
-        return new Queue(MqConstants.TEST_QUEUE, true, false, false);
+        Map<String, Object> args = new HashMap<>();
+        args.put("x-dead-letter-exchange", MqConstants.DLX_EXCHANGE);
+        args.put("x-dead-letter-routing-key", MqConstants.DLX_ROUTING_KEY);
+        return new Queue(MqConstants.TEST_QUEUE, true, false, false, args);
     }
 
     @Bean
@@ -36,26 +36,25 @@ public class RabbitMqConfig {
                 .with(MqConstants.TEST_ROUTING_KEY);
     }
 
-//    @Bean
-//    public DirectExchange dlxExchange() {
-//        return new DirectExchange(MqConstants.DLX_EXCHANGE, true, false);
-//    }
-//
-//
-//    @Bean
-//    public Queue dlxQueue() {
-//        return new Queue(MqConstants.DLX_QUEUE, true);
-//    }
-//
-//
-//    @Bean
-//    public Binding dlxBinding() {
-//        return BindingBuilder
-//                .bind(dlxQueue())
-//                .to(dlxExchange())
-//                .with(MqConstants.DLX_ROUTING_KEY);
-//    }
+    @Bean
+    public DirectExchange dlxExchange() {
+        return new DirectExchange(MqConstants.DLX_EXCHANGE, true, false);
+    }
 
+
+    @Bean
+    public Queue dlxQueue() {
+        return new Queue(MqConstants.DLX_QUEUE, true);
+    }
+
+
+    @Bean
+    public Binding dlxBinding() {
+        return BindingBuilder
+                .bind(dlxQueue())
+                .to(dlxExchange())
+                .with(MqConstants.DLX_ROUTING_KEY);
+    }
 
 
     @Bean
