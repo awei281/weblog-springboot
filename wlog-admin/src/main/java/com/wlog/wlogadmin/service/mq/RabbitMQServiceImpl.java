@@ -21,11 +21,6 @@ public class RabbitMQServiceImpl implements RabbitMQService {
 
     @Override
     public void sendMsg(MqTestVO msg) {
-        try {
-            messageSender.send(msg.getMessage());
-        } catch (Exception e) {
-            log.error("发送MQ消息失败", e);
-            throw e;
-        }
+        messageSender.send(msg.getMessage());
     }
 }

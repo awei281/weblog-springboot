@@ -2,14 +2,16 @@ package com.wlog.wlogadmin.service.mq.listener;
 
 import com.rabbitmq.client.Channel;
 import com.wlog.wlogcommon.mq.rabbitmq.AbstractRabbitConsumer;
+import com.wlog.wlogcommon.mq.rabbitmq.MqConstants;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
-//@RabbitListener(queues = MqConstants.DLX_QUEUE)
+@RabbitListener(queues = MqConstants.DLX_QUEUE)
 public class DlxConsumer extends AbstractRabbitConsumer<String> {
 
 

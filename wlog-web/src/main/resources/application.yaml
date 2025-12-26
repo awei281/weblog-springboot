@@ -3,7 +3,7 @@ spring:
   application:
     name: wlog-web
   profiles:
-    active: prod
+    active: dev
 #    active: prod
 
 #  返回参数如果为null就不返回

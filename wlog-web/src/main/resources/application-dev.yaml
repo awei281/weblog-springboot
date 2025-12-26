@@ -7,11 +7,21 @@ logging:
     com.wlog.wlogcommon.domain.mapper: debug
 
 spring:
+  rabbitmq:
+    host: 192.168.0.40    # 你的虚拟机 IP
+    port: 5672
+    username: admin
+    password: admin123
+    virtual-host: dev
+    listener:
+      simple:
+        acknowledge-mode: manual  #手动ACK
+        prefetch: 1
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/wlog?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
     username: root
-    password: admin123
+    password: root123456
     hikari:
       minimum-idle: 5
       maximum-pool-size: 20
@@ -49,8 +59,8 @@ mybatis-plus:
 #=================================================================
 # minio
 #=================================================================
-#minio:
-#  endpoint: http://119.45.233.151:19000
-#  accessKey: minio
-#  secretKey: hfZX7ictZr6dc6HN
-#  bucketName: wlog
+minio:
+  endpoint: http://119.45.233.151:19000
+  accessKey: minio
+  secretKey: hfZX7ictZr6dc6HN
+  bucketName: wlog

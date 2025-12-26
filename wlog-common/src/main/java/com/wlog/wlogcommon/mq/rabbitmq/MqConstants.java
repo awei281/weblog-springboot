@@ -16,4 +16,10 @@ public interface MqConstants {
     String DLX_QUEUE = "demo.dlx.queue";
     String DLX_ROUTING_KEY = "demo.dlx.key";
 
+    /**
+     * 延迟交换机
+     */
+    String RETRY_EXCHANGE = "demo.retry.exchange";
+    String RETRY_QUEUE = "demo.retry.queue";
+    String RETRY_ROUTING_KEY = "demo.retry.key";
 }
