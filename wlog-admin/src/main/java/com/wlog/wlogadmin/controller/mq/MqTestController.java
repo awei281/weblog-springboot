@@ -33,4 +33,6 @@ public class MqTestController {
         rabbitMQService.sendMsg(mqTestVO);
         return Response.success("成功") ;
     }
+
+
 }

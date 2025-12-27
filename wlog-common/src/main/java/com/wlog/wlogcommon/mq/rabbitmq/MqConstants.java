@@ -21,5 +21,9 @@ public interface MqConstants {
      */
     String RETRY_EXCHANGE = "demo.retry.exchange";
     String RETRY_QUEUE = "demo.retry.queue";
+    String RETRY_QUEUE_30S = "demo.retry30.queue";
+    String RETRY_QUEUE_120S = "demo.retry120.queue";
     String RETRY_ROUTING_KEY = "demo.retry.key";
+    String RETRY_ROUTING_KEY_30S = "demo.retry30.key";
+    String RETRY_ROUTING_KEY_120S = "demo.retry120.key";
 }

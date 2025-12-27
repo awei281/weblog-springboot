@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+
 @Slf4j
 @Component
 @RabbitListener(queues = MqConstants.TEST_QUEUE)
@@ -18,7 +19,7 @@ public class DemoConsumer extends AbstractRabbitConsumer<String> {
     /**
      * @param message 反序列化后的业务数据
      * @param channel RabbitMQ 原生通道
-     * @param msg 原始消息（header、deliveryTag 在这）
+     * @param msg     原始消息（header、deliveryTag 在这）
      * @throws IOException 抛给 RabbitMQ
      */
     @RabbitHandler
@@ -28,7 +29,7 @@ public class DemoConsumer extends AbstractRabbitConsumer<String> {
 
 
     @Override
-    protected void handleMessage(String data) {
+    protected void handleMessage(String data, Message message) {
         log.info("处理业务消息：{}", data);
         // 模拟异常
         if ("error1".equals(data)) {
