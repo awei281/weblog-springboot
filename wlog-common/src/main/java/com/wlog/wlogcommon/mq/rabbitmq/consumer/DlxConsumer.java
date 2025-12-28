@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -47,5 +48,16 @@ public class DlxConsumer extends AbstractRabbitConsumer<String> {
         entity.setReason("MAX_RETRY_EXCEEDED");
 
         mqDeadMessageMapper.insert(entity);
+    }
+
+    @Override
+    protected String getBizKey(String data) {
+        return UUID.randomUUID().toString();
+    }
+
+    @Override
+    protected String consumerCode() {
+        //当前执行线程的线程id + MqConstants.DLX_QUEUE
+        return Thread.currentThread().getId() + MqConstants.DLX_QUEUE;
     }
 }

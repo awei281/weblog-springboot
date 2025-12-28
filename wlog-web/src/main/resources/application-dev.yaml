@@ -7,6 +7,11 @@ logging:
     com.wlog.wlogcommon.domain.mapper: debug
 
 spring:
+  redis:
+    host: 192.168.0.40   # Redis 服务器 IP
+    port: 6379            # Redis 端口
+    database: 0           # 使用的数据库索引
+    timeout: 5000ms       # 连接超时时间
   rabbitmq:
     host: 192.168.0.40    # 你的虚拟机 IP
     port: 5672

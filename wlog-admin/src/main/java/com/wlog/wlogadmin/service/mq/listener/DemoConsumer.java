@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -35,5 +36,15 @@ public class DemoConsumer extends AbstractRabbitConsumer<String> {
         if ("error1".equals(data)) {
             throw new RuntimeException("模拟业务异常");
         }
+    }
+
+    @Override
+    protected String getBizKey(String data) {
+        return UUID.randomUUID().toString();
+    }
+
+    @Override
+    protected String consumerCode() {
+        return Thread.currentThread().getId() + MqConstants.TEST_QUEUE;
     }
 }
