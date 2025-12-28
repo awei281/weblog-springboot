@@ -3,6 +3,8 @@ package com.wlog.wlogadmin.service.mq;
 import com.wlog.wlogadmin.controller.mq.vo.MqDeadMessageReqVO;
 import com.wlog.wlogcommon.domain.dos.MqDeadMessageDO;
 import com.wlog.wlogcommon.domain.mapper.MqDeadMessageMapper;
+import com.wlog.wlogcommon.enums.ResponseCodeEnum;
+import com.wlog.wlogcommon.exception.BizException;
 import com.wlog.wlogcommon.mq.rabbitmq.MQMessageSenderService;
 import com.wlog.wlogcommon.utils.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,9 @@ public class MqDeadMessageServiceImpl implements MqDeadMessageService{
     @Override
     public void mqDeadMessageRetry(MqDeadMessageReqVO mqDeadMessagePageReqVO) {
         MqDeadMessageDO mqDeadMessageDO = mqDeadMessageMapper.selectById(mqDeadMessagePageReqVO.getId());
+        if (mqDeadMessageDO == null){
+            throw  new BizException(ResponseCodeEnum.MQ_ERR_MASSAGE_NOT_EXIST);
+        }
         mqMessageSenderService.send(mqDeadMessageDO);
     }
 }

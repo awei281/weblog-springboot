@@ -2,6 +2,7 @@ package com.wlog.wlogadmin.service.mq;
 
 import com.wlog.wlogadmin.controller.mq.vo.MqTestVO;
 import com.wlog.wlogcommon.mq.rabbitmq.MQMessageSender;
+import com.wlog.wlogcommon.mq.rabbitmq.MqConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,6 @@ public class RabbitMQServiceImpl implements RabbitMQService {
 
     @Override
     public void sendMsg(MqTestVO msg) {
-        messageSender.send(msg.getMessage());
+        messageSender.send(msg.getMessage(), MqConstants.TEST_EXCHANGE, MqConstants.TEST_ROUTING_KEY);
     }
 }

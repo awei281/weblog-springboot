@@ -1,6 +1,7 @@
 package com.wlog.wlogcommon.mq.rabbitmq;
 
 import com.wlog.wlogcommon.domain.dos.MqDeadMessageDO;
+import org.springframework.amqp.core.MessagePostProcessor;
 
 /**
  * @author： wsw
@@ -9,7 +10,9 @@ import com.wlog.wlogcommon.domain.dos.MqDeadMessageDO;
  */
 public interface MQMessageSenderService {
 
-     void send(String message);
+     void send(Object message,String exchangeName, String routingKey);
 
      void send(MqDeadMessageDO mqDeadMessageDO);
+
+     void send(Object message, MessagePostProcessor messagePostProcessor);
 }
