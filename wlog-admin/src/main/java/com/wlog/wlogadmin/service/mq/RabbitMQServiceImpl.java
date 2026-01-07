@@ -1,0 +1,27 @@
+package com.wlog.wlogadmin.service.mq;
+
+import com.wlog.wlogadmin.controller.mq.vo.MqTestVO;
+import com.wlog.wlogcommon.mq.rabbitmq.MQMessageSender;
+import com.wlog.wlogcommon.mq.rabbitmq.MqConstants;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+/**
+ * @author： wsw
+ * @date： 2025/12/25 21:20
+ * @describe：
+ */
+@Service
+@Slf4j
+public class RabbitMQServiceImpl implements RabbitMQService {
+
+    @Resource
+    private MQMessageSender messageSender;
+
+    @Override
+    public void sendMsg(MqTestVO msg) {
+        messageSender.send(msg.getMessage(), MqConstants.TEST_EXCHANGE, MqConstants.TEST_ROUTING_KEY);
+    }
+}

@@ -40,6 +40,7 @@
         <tika-core.version>2.9.1</tika-core.version>
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
         <liteflow-spring-boot-starter.version>2.15.2</liteflow-spring-boot-starter.version>
+        <redisson.version>3.18.0</redisson.version>
     </properties>
 
     <!-- 统一依赖版本管理 -->
@@ -147,6 +148,12 @@
                 <groupId>com.yomahub</groupId>
                 <artifactId>liteflow-spring-boot-starter</artifactId>
                 <version>${liteflow-spring-boot-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
 
 

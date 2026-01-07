@@ -7,6 +7,22 @@ logging:
     com.wlog.wlogcommon.domain.mapper: debug
 
 spring:
+  redis:
+    host: 192.168.0.40   # Redis 服务器 IP
+    port: 6379            # Redis 端口
+    password: ""          # 如果没有密码留空
+    database: 0           # 使用的数据库索引
+    timeout: 5000ms       # 连接超时时间
+  rabbitmq:
+    host: 192.168.0.40    # 你的虚拟机 IP
+    port: 5672
+    username: admin
+    password: admin123
+    virtual-host: dev
+    listener:
+      simple:
+        acknowledge-mode: manual  #手动ACK
+        prefetch: 1
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://119.45.233.151:13306/wlog?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
@@ -53,3 +69,6 @@ minio:
   accessKey: minio
   secretKey: hfZX7ictZr6dc6HN
   bucketName: wlog
+
+
+
