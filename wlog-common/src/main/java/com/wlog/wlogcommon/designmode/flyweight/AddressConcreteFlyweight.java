@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * @author： wsw
  * @date： 2025/12/19 14:54
- * @describe：
+ * @describe： 享元具体实现类
  */
 @Data
 @Builder
